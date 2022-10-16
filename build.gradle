@@ -1,0 +1,110 @@
+plugins {
+  id "java-library"
+  id "com.github.spotbugs" version "5.0.12" apply false
+  id 'jacoco-report-aggregation'
+}
+
+wrapper {
+  gradleVersion = "7.5.1"
+}
+
+dependencies {
+  implementation project(":core")
+  implementation project(":console")
+  implementation project(":application")
+  implementation project(":printer")
+  implementation project(":persistence")
+}
+
+group "com.lookiero"
+version "1.0.0"
+
+jar {
+  manifest {
+    attributes("Main-Class": "com.lookiero.application.ConsoleTwitterApp")
+  }
+
+  from {
+    configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+  }
+
+  duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+tasks.named("check") {
+  dependsOn tasks.named("testCodeCoverageReport", JacocoReport)
+}
+
+allprojects {
+  repositories {
+    mavenCentral()
+  }
+}
+
+subprojects {
+  apply plugin: "java"
+  apply plugin: "jacoco"
+  apply plugin: "pmd"
+  apply plugin: "com.github.spotbugs"
+
+  java {
+    toolchain {
+      languageVersion = JavaLanguageVersion.of(17)
+    }
+  }
+
+  dependencies {
+    testImplementation "org.assertj:assertj-core:3.23.1"
+    testImplementation "org.mockito:mockito-junit-jupiter:4.8.0"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:5.9.1"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.9.1"
+  }
+
+  check.finalizedBy(jacocoTestReport)
+
+  test {
+    useJUnitPlatform()
+    ignoreFailures = true
+  }
+
+  pmd {
+    ignoreFailures = true
+  }
+  pmdMain {
+    reports {
+      xml.required = true
+      html.required = true
+    }
+  }
+  pmdTest {
+    reports {
+      xml.required = true
+      html.required = true
+    }
+  }
+
+  spotbugs {
+    ignoreFailures = true
+  }
+  spotbugsMain {
+    reports {
+      xml.required = true
+      html.required = true
+    }
+  }
+  spotbugsTest {
+    reports {
+      xml.required = true
+      html.required = true
+    }
+  }
+
+  jacocoTestReport {
+    reports {
+      xml.required = true
+      html.required = true
+    }
+  }
+}
+
+
