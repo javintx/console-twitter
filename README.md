@@ -86,7 +86,7 @@ To run the app, follow the next steps:
 * Pay attention about how your code is organized.
 * How you are reflecting the domain in the code.
 * We love clean code.
-* We don`t think 100% of code coverage is a must, but we love tests.
+* We don't think 100% of code coverage is a must, but we love tests.
 * We are looking forward to seeing your code and discuss with you your solution.
 
 <h2>Assumptions</h2>
@@ -109,4 +109,5 @@ To run the app, follow the next steps:
 
 <h2>Coverage</h2>
 16-Oct-2022
-![Coverage - 16-Oct-2022](coverage-16-oct-22.png "Coverage - 16-Oct-2022")
+
+![Coverage - 16-Oct-2022](https://raw.githubusercontent.com/javintx/console-twitter/main/coverage-16-oct-22.png)
